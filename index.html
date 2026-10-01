@@ -1,0 +1,32 @@
+<!doctype html>
+<!--
+  TikTok OAuth relay for the local Content Studio dashboard.
+  TikTok "Web" apps only accept public https redirect URIs, so TikTok sends the browser here and this
+  page immediately forwards the same query string (code + state) to the dashboard on YOUR PC.
+  It runs entirely in your browser: nothing is stored or sent anywhere else. The code is useless
+  without the app secret, which only exists on your PC.
+
+  Host it free on GitHub Pages: new public repo -> upload this file as index.html ->
+  Settings -> Pages -> Deploy from branch (main, /root). Your URL is https://<you>.github.io/<repo>/
+  Register that exact URL (with trailing slash) as the TikTok redirect URI, and enter it on the
+  dashboard under TikTok -> App keys -> Redirect URI.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="no-referrer">
+<title>Returning to Content Studio…</title>
+<style>body{font:16px system-ui,sans-serif;margin:15vh auto;max-width:520px;padding:0 16px;color:#222}</style>
+</head>
+<body>
+<p>Returning to Content Studio on this computer…</p>
+<p id="fallback" hidden>If nothing happens, make sure the dashboard is running, then
+  <a id="link" href="#">click here</a>.</p>
+<script>
+  var target = "http://127.0.0.1:7860/oauth/tiktok/callback/" + window.location.search;
+  document.getElementById("link").href = target;
+  setTimeout(function () { document.getElementById("fallback").hidden = false; }, 2500);
+  window.location.replace(target);
+</script>
+</body>
+</html>
